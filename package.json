@@ -6,7 +6,7 @@
   "main": "dist/gameboy.js",
   "scripts": {
     "dev": "parcel src/index.html",
-    "build": "parcel src/index.html --dist-dir public"
+    "dev-build": "parcel src/index.html --dist-dir public"
   },
   "repository": {
     "type": "git",
