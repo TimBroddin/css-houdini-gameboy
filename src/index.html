@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Houdini Gameboy PaintWorklet</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body>
+    <div id="content">
+      <h1>Houdini Gameboy PaintWorklet</h1>
+
+      <div class="css-houdini-gameboy"></div>
+      <p>WIP. Buggy as hell.</p>
+      <p>
+        Controls: left, right, up, down, a, b, space (start), enter (select)
+      </p>
+    </div>
+    <script type="module">
+      (async function () {
+        if (CSS["paintWorklet"] === undefined) {
+          await import("css-paint-polyfill");
+        }
+
+        CSS.paintWorklet.addModule(new URL("gameboy.js", import.meta.url));
+
+        const gameboy = document.querySelector(".css-houdini-gameboy");
+
+        let frame = 0;
+        const incrementFrame = () => {
+          gameboy.style.setProperty("--frame", frame);
+          frame++;
+          requestAnimationFrame(incrementFrame);
+        };
+
+        incrementFrame();
+
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowLeft") {
+            gameboy.style.setProperty("--button-left", "1");
+          } else if (event.key === "ArrowRight") {
+            gameboy.style.setProperty("--button-right", "1");
+          } else if (event.key === "ArrowUp") {
+            gameboy.style.setProperty("--button-up", "1");
+          } else if (event.key === "buttonDown") {
+            gameboy.style.setProperty("--button-down", "1");
+          } else if (event.key === "a") {
+            gameboy.style.setProperty("--button-a", "1");
+          } else if (event.key === "b") {
+            gameboy.style.setProperty("--button-b", "1");
+          } else if (event.key === " ") {
+            gameboy.style.setProperty("--button-start", "1");
+          } else if (event.key === "Enter") {
+            gameboy.style.setProperty("--button-select", "1");
+          }
+        });
+        document.addEventListener("keyup", (event) => {
+          if (event.key === "ArrowLeft") {
+            gameboy.style.setProperty("--button-left", "0");
+          } else if (event.key === "ArrowRight") {
+            gameboy.style.setProperty("--button-right", "0");
+          } else if (event.key === "ArrowUp") {
+            gameboy.style.setProperty("--button-up", "0");
+          } else if (event.key === "buttonDown") {
+            gameboy.style.setProperty("--button-down", "0");
+          } else if (event.key === "a") {
+            gameboy.style.setProperty("--button-a", "0");
+          } else if (event.key === "b") {
+            gameboy.style.setProperty("--button-b", "0");
+          } else if (event.key === " ") {
+            gameboy.style.setProperty("--button-start", "0");
+          } else if (event.key === "Enter") {
+            gameboy.style.setProperty("--button-select", "0");
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

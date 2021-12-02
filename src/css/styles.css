@@ -1,0 +1,21 @@
+
+
+#content {
+    font-family: 'Courier New', Courier, monospace;
+    width: 320px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+.css-houdini-gameboy {
+    border-radius: 10px;
+    width: 320px;
+    height: 288px;
+    background: paint(gameboy);
+    margin-bottom: 10px;
+
+}
+

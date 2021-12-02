@@ -1,0 +1,49 @@
+{
+  "name": "@timbroddin/css-houdini-gameboy",
+  "version": "1.0.0",
+  "description": "CSS Houdini Background Gameboy experiment",
+  "source": "src/index.js",
+  "main": "dist/gameboy.js",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel src/index.html --dist-dir public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timbroddin/css-houdini-gameboy.git"
+  },
+  "keywords": [
+    "houdini",
+    "css-houdini",
+    "css",
+    "paintworklet",
+    "paint",
+    "worklet",
+    "background",
+    "blob",
+    "blobs"
+  ],
+  "author": {
+    "name": "Tim Broddin",
+    "email": "tim@broddin.be",
+    "twitter": "@timbroddin",
+    "web": "https://www.broddin.be/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/timbroddin/css-houdini-gameboy/issues"
+  },
+  "homepage": "https://github.com/timbroddin/css-houdini-gameboy#readme",
+  "devDependencies": {
+    "@parcel/optimizer-blob-url": "^2.0.1",
+    "@parcel/optimizer-data-url": "^2.0.1",
+    "@parcel/transformer-inline": "^2.0.1",
+    "@parcel/transformer-inline-string": "^2.0.1",
+    "parcel": "^2.0.1"
+  },
+  "dependencies": {
+    "css-paint-polyfill": "^3.3.0",
+    "process": "^0.11.10",
+    "serverboy": "^0.0.7"
+  }
+}
