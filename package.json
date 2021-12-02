@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "CSS Houdini Background Gameboy experiment",
   "source": "src/index.js",
-  "main": "dist/gameboy.js",
   "scripts": {
     "dev": "parcel src/index.html",
-    "dev-build": "parcel src/index.html --dist-dir public"
+    "build": "parcel build src/index.html --dist-dir public"
   },
   "repository": {
     "type": "git",
@@ -42,6 +41,7 @@
     "parcel": "^2.0.1"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "css-paint-polyfill": "^3.3.0",
     "process": "^0.11.10",
     "serverboy": "^0.0.7"
