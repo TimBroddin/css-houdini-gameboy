@@ -6,17 +6,139 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Houdini Gameboy PaintWorklet</title>
     <link rel="stylesheet" href="./css/styles.css" />
+    <script
+      defer
+      data-domain="css-houdini-gameboy.vercel.app"
+      src="https://plausible.io/js/plausible.js"
+    ></script>
+    <meta name="title" content="CSS Houdini GameBoy PaintWorklet" />
+    <meta name="description" content="A super dumb Houdini PaintWorklet." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://css-houdini-gameboy.vercel.app/" />
+    <meta property="og:title" content="CSS Houdini GameBoy PaintWorklet" />
+    <meta
+      property="og:description"
+      content="A super dumb Houdini PaintWorklet."
+    />
+    <meta
+      property="og:image"
+      content="https://css-houdini-gameboy.vercel.app/og.jpg"
+    />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:url"
+      content="https://css-houdini-gameboy.vercel.app/"
+    />
+    <meta property="twitter:title" content="CSS Houdini GameBoy PaintWorklet" />
+    <meta
+      property="twitter:description"
+      content="A super dumb Houdini PaintWorklet."
+    />
+    <meta
+      property="twitter:image"
+      content="https://css-houdini-gameboy.vercel.app/og.jpg"
+    />
   </head>
   <body>
     <div id="content">
-      <h1>Houdini Gameboy PaintWorklet</h1>
+      <h1>Experimental Houdini Gameboy PaintWorklet</h1>
+      <h2 class="author">
+        by <a href="https://broddin.be/english">Tim Broddin</a>
+      </h2>
 
       <div class="css-houdini-gameboy"></div>
-      <p>WIP. Buggy as hell.</p>
-      <p>Controls via CSS-vars: --button-a: 1, ...</p>
+      <p class="center">
+        WIP. <strong>Buggy</strong> as hell. Unplayable. Controllable with your
+        keyboard: left, right, up, down, a, b, space (start), enter (select)
+      </p>
+      <h2>What's a PaintWorklet (Houdini)?</h2>
       <p>
-        Or use your keyboard to toggle the CSS-vars: left, right, up, down, a,
-        b, space (start), enter (select)
+        <cite
+          >The CSS Painting API — part of the CSS Houdini umbrella of APIs —
+          allows developers to write JavaScript functions that can draw directly
+          into an element's background, border, or content.</cite
+        >
+        -
+        <a
+          href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Painting_API"
+          >MDN</a
+        >
+      </p>
+      <p>
+        Paint worklets are registered using Javascript, and can be used in CSS
+        with a <code>paint()</code> call.
+      </p>
+      <p>
+        <code>
+          <pre>
+&lt;script&gt;
+    CSS.paintWorklet.addModule("gameboy.js");
+&lt;/script&gt;
+
+&lt;style&gt;
+    .css-houdini-gameboy {
+        background: paint(gameboy);
+    }
+&lt;/style&gt;
+      </pre
+          >
+        </code>
+      </p>
+      <p>
+        The Painting API provides a (limited) canvas-like API to draw. When the
+        element using the <code>paint()</code> function is redrawn, the
+        worklets' paint method is called.
+      </p>
+
+      <h2>How does this work?</h2>
+      <p>
+        The PaintWorklet loads
+        <a href="https://www.npmjs.com/package/serverboy">Serverboy</a>, a
+        Gameboy emulator tailored for headless use and starts a ROM (inlined in
+        the bundled code).
+      </p>
+      <p>
+        Redraws are triggered by animating a custom CSS variable called
+        <code>--frame</code>. You could do this in CSS, but it's easier to
+        control the frame rate in JS.
+      </p>
+
+      <p>
+        Controls are also implemented as CSS variables, for example this would
+        make Mario jump all the time:
+      </p>
+      <p>
+        <code>
+          <pre>
+&lt;div class="css-houdini-gameboy" style="--button-a: 1"&gt;&lt;/div&gt;
+          </pre>
+        </code>
+      </p>
+      <p>
+        By triggering the right CSS variables at the right time, you can control
+        Mario.
+      </p>
+
+      <h2>Caveats</h2>
+      <ul>
+        <li>There's serious stutter. Sometimes old frames get redrawn.</li>
+        <li>Slow as hell</li>
+        <li>
+          Since there's no <code>putImageData</code> function in the limited
+          Paint API, all pixel data is looped & 96K rectangles are drawn.
+        </li>
+      </ul>
+
+      <h2>Code</h2>
+      <p>
+        I wont be working on this <strong>dumb experiment</strong> actively, but
+        if for some reason you need a Gameboy emulator inside a Paint Worklet,
+        feel free to grab
+        <a href="https://github.com/TimBroddin/css-houdini-gameboy">my code</a>.
       </p>
     </div>
     <script type="module">
@@ -39,6 +161,7 @@
         incrementFrame();
 
         document.addEventListener("keydown", (event) => {
+          event.preventDefault();
           if (event.key === "ArrowLeft") {
             gameboy.style.setProperty("--button-left", "1");
           } else if (event.key === "ArrowRight") {

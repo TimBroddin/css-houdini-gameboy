@@ -5,7 +5,7 @@
   "source": "src/index.js",
   "scripts": {
     "dev": "parcel src/index.html",
-    "build": "parcel build src/index.html --dist-dir public"
+    "build": "parcel build src/index.html --dist-dir public; cp src/og.jpg public/og.jpg"
   },
   "repository": {
     "type": "git",

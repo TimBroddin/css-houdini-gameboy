@@ -58,11 +58,9 @@ function dataUriToBuffer(uri) {
 class GameboyPainter {
   constructor() {
     this.gb = new Gameboy();
+    this.isPainting = false;
     //console.log(fetch);
     this.gb.loadRom(dataUriToBuffer(rom));
-    for (let i = 0; i < 300; i++) {
-      //  this.gb.doFrame();
-    }
   }
   static get inputProperties() {
     return [
@@ -151,6 +149,7 @@ class GameboyPainter {
       buttonDown,
       buttonStart,
       buttonSelect,
+      frame: frameNumber,
     } = this.parseProps(props);
 
     //console.log(this.parseProps(props));
@@ -183,18 +182,22 @@ class GameboyPainter {
 
     this.gb.pressKeys(pressed);
 
-    this.gb.doFrame();
-
-    const frame = this.gb.getScreen();
-    for (let x = 0; x < 160; x++) {
-      for (let y = 0; y < 144; y++) {
-        const start = (x + y * 160) * 4;
-        const r = frame[start];
-        const b = frame[start + 1];
-        const g = frame[start + 2];
-        ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-        ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE);
+    if (!this.isPainting) {
+      this.isPainting = true;
+      const frame = this.gb.doFrame();
+      for (let x = 0; x < 160; x++) {
+        for (let y = 0; y < 144; y++) {
+          const start = (x + y * 160) * 4;
+          const r = frame[start];
+          const b = frame[start + 1];
+          const g = frame[start + 2];
+          ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+          ctx.fillRect(x * SCALE, y * SCALE, SCALE, SCALE);
+        }
       }
+      this.isPainting = false;
+    } else {
+      ctx.clearRect(0, 0, geom.width, geom.height);
     }
   }
 }
